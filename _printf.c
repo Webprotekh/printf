@@ -9,23 +9,26 @@
 int _printf(const char *format, ...)
 {
 	int s;
-	va_list lst;
-	va_start(lst, format);
-	while(*format!='\0')
+	va_list ap;
+
+	va_start(ap, format);
+	while (*format != '\0')
 	{
-		if(*format!='%')
+		if (*format != '%')
 		{
 			putchar(*format);
 			format++;
 			continue;
 		}
 		format++;
-		switch(*format)
+		switch (*format)
 		{
 		case 's':
-			s = fputs(va_arg(lst, char *), stdout); break;
+			s = fputs(va_arg(ap, char *), stdout);
+			break;
 		case 'c':
-			s = putchar(va_arg(lst, int)); break;
+			s = putchar(va_arg(ap, int));
+			break;
 		}
 		format++;
 		}
