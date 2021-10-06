@@ -29,9 +29,7 @@ int _printf(const char *format, ...)
 	va_list ap;
 	char ch;
 	char *str;
-//	int no;
-//	char ch2;
-//	int len = strlen(str);
+	int no;
 
 	va_start(ap, format);
 	while (*format != '\0')
@@ -56,6 +54,24 @@ int _printf(const char *format, ...)
 		case '%':
 			s = fputc('%', stdout);
 			break; 
+		case 'd':
+			no = va_arg(ap, int);
+			if (no < 0)
+			{
+				no = -no;
+				putchar('-');
+			}
+			fputs(_itoa(no, 10), stdout);
+			break;
+		case 'i':
+			no = va_arg(ap, int);
+			if (no < 0)
+			{
+				no = -no;
+				putchar('-');
+			}
+			fputs(_itoa(no, 10), stdout);
+			break;
 		}
 		format++;
 		}
