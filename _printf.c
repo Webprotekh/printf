@@ -21,6 +21,12 @@ char* _itoa(int val, int base)
 
 	return &buf[i+1];
 }
+/**
+ * print_int - prints integers or decimal
+ *
+ * @no: number to be printed
+ * @ap: variable argument
+ */
 void print_int(int no, va_list ap)
 {
 	no = va_arg(ap, int);
