@@ -2,18 +2,34 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-char* _itoa(int val, int base){
-
+/**
+ * _itoa: converts integer to ascci code
+ *
+ * @val: integer
+ * @base: base of the integer
+ *
+ * Returns: Ascci value
+ */
+char* _itoa(int val, int base)
+{
 	static char buf[32] = {0};
 
 	int i = 30;
 
 	for(; val && i ; --i, val /= base)
-
 		buf[i] = "0123456789abcdef"[val % base];
 
 	return &buf[i+1];
-
+}
+void print_int(int no, va_list ap)
+{
+	no = va_arg(ap, int);
+	if (no < 0)
+	{
+		no = -no;
+		putchar('-');
+	}
+	fputs(_itoa(no, 10), stdout);
 }
 
 /**
@@ -31,6 +47,7 @@ int _printf(const char *format, ...)
 	char *str;
 	int no;
 
+	no = 0;
 	va_start(ap, format);
 	while (*format != '\0')
 	{
@@ -55,22 +72,10 @@ int _printf(const char *format, ...)
 			s = fputc('%', stdout);
 			break; 
 		case 'd':
-			no = va_arg(ap, int);
-			if (no < 0)
-			{
-				no = -no;
-				putchar('-');
-			}
-			fputs(_itoa(no, 10), stdout);
+			print_int(no, ap);
 			break;
 		case 'i':
-			no = va_arg(ap, int);
-			if (no < 0)
-			{
-				no = -no;
-				putchar('-');
-			}
-			fputs(_itoa(no, 10), stdout);
+			print_int(no, ap);
 			break;
 		}
 		format++;
