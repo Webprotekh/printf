@@ -1,42 +1,32 @@
-#ifndef HOLBERTON_H
-#define HOLBERTON_H
+#ifndef _HOLBERTON_H_
+#define _HOLBERTON_H_
 
 #include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <unistd.h>
-
-#define BUFFER 1024
-
 /**
- * struct format_spec - Struct
- * @spec: specifier
- * @f: function, pointer
+ * struct print - structure for printing various types
+ * @t: type to print
+ * @f: function to print
  */
-
-typedef struct format_spec
+typedef struct print
 {
-	char  *spec;
+	char *t;
 	int (*f)(va_list);
-} spec_type;
+} print_t;
 
-int _printf(const char *format, ...);
-int (*get_specifier(char format))(va_list);
-int get_int(va_list arg);
-int get_unsigned(va_list arg);
-int get_char(va_list arg);
-int get_string(va_list arg);
-int get_reverse(va_list arg);
-void _puts(char *str);
 int _putchar(char c);
-int _strlen(char *str);
-int rev_string(va_list arg);
-int get_percent(va_list arg);
-int get_hex(va_list arg);
-int get_heX(va_list arg);
-int get_binary(va_list arg);
-int get_octal(va_list arg);
-int get_rot13(va_list arg);
+int _printf(const char *format, ...);
+int print_c(va_list c);
+int print_s(va_list s);
+int print_i(va_list i);
+int print_d(va_list d);
+int print_u(va_list u);
+int print_b(va_list b);
+int print_o(va_list o);
+int print_x(va_list x);
+int print_X(va_list X);
+int print_p(va_list p);
+int print_S(va_list S);
+int print_r(va_list r);
+int print_R(va_list R);
 
-#endif
+#endif  /* _HOLBERTON_H */
