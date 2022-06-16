@@ -1,31 +1,55 @@
-.TH man 3 "16.03.2020" "0.01" "_printf man page"
+.\" Manpage for _printf.
+.\" Contact humeincreations@gmail.com to correct errors or typos.
+.TH man 3 "29 July 2019" "1.0" "_printf man page"
 .SH NAME
-.B _printf
-- A simple re-creation of the printf function
+_printf \- formatted output conversion
 .SH SYNOPSIS
-To use this function the #include "holberton.h" header is needed.
+#include "holberton.h"
+
+#include <stdarg.h>
+
+.B int _printf(const char *format, ...);
 .SH DESCRIPTION
-The _printf() function produces output according to a format which is described
-below. This function write its output to the stdout, the standard output stream.
-.SH USAGE
-To use _printf you have to use the following key characters preceeded by % symbol.
-.RS 3
-%c: To be used to print characters
-.RS 0
-%s: To be used to print strings
-.RS 0
-%d: To print integers of max and min size of an int type
-.RS 0
-%i: To print integers of max and min size of an int type
-.RS 0
-%b: To print a number in binary form
-.RS 0
-%p: To be used to print  pointer addresses
-.RS 0
-%S: To be used to print non-printable characters
-.SH RETURN VALUES
-The _printf() function returns an integer representing the number of symbols
-printed not counting \\0 for the string.
+The functions in _printf produce output according to format specifiers described
+below. The ouput is
+.I stdout
+the standard output stream;
+.SS FORMAT OF FORMAT STRING
+The format string given handles zero or more directives: ordinary characters
+(non specified (%)), are printed unchanged to the output stream. Conversion
+specifiers are introduced w/ (%_specifier). Each conversion specification is
+introduced by the characer %, and ends with a
+.I conversion specifier.
+At this time there is no
+.I flags,
+.I field width, precision,
+and
+.I length modifier.
+The arguments my compliment properly with provided specifier. The arguments are
+used in the order given.
+.SH Conversion Specifiers
+A character that specifies the type of conversion to be applied.
+.TP
+.BR \-d, i\fr
+The int argument is converted to signed decimal notation.
+.TP
+.BR \-c\fr
+The int argument is converted to an
+.I unsigned char,
+and the resulting character is written.
+.TP
+.BR \-s\fr
+The const char * argument is expected to be a pointer to an array of
+.I character type
+(pointer to a string). Characters from the array are written up to
+(but not including) a terminating null byte ('\\0').
+.TP
+.BR \-%\fr
+A % is written. No argument is converted. The complete conversion
+specification is '%%'.
+.SH SEE ALSO
+printf(1), asprintf(3), puts(3), scanf(3).
+.SH BUGS
+No known bugs.
 .SH AUTHOR
-Muchami Ngotho
-Jane Ngethe
+Christian Williams and Andrew Graf
