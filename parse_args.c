@@ -1,4 +1,4 @@
-#include "holberton.h"
+#include "main.h"
 
 /**
  * parse_args - Receives the main string and all the necessary parameters to
