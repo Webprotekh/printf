@@ -1,50 +1,42 @@
 #ifndef HOLBERTON_H
 #define HOLBERTON_H
-#define _PRINTF_H
 
-#include <unistd.h>
-#include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <unistd.h>
 
-
+#define BUFFER 1024
 
 /**
- * struct type_spec - structure for symbols and functions
- *
- * @t: Characters
- * @fn: respective functions
+ * struct format_spec - Struct
+ * @spec: specifier
+ * @f: function, pointer
  */
 
-struct type_spec
+typedef struct format_spec
 {
-char *t;
-int (*fn)(va_list);
-};
-typedef struct type_spec spec_t;
-/* Function prototypes*/
-int print_binary(va_list list);
-int print_octal(va_list list);
-int print_hex(va_list list);
-int print_heX(va_list list);
-int hex_check(int num, char x);
-char *rev_str(char *s);
-int rot13(va_list list);
-void _base(char *str);
-unsigned int base_len(unsigned int num, int base);
-char *_memcpy(char *dest, char *src, unsigned int n);
-int print_reversed(va_list arg);
-int parse_args(const char *format, spec_t fun_list[], va_list arg_list);
-int print_number(va_list args);
-int print_unsgined_number(unsigned int n);
-int print_char(va_list list);
-int print_string(va_list list);
-int print_percent(__attribute__((unused))va_list list);
-int print_integer(va_list list);
-int unsigned_integer(va_list list);
-int _putchar(char c);
-int _printf(const char *format, ...);
-int print_custom(va_list list);
-int print_pointer(va_list list);
-#endif
+	char  *spec;
+	int (*f)(va_list);
+} spec_type;
 
+int _printf(const char *format, ...);
+int (*get_specifier(char format))(va_list);
+int get_int(va_list arg);
+int get_unsigned(va_list arg);
+int get_char(va_list arg);
+int get_string(va_list arg);
+int get_reverse(va_list arg);
+void _puts(char *str);
+int _putchar(char c);
+int _strlen(char *str);
+int rev_string(va_list arg);
+int get_percent(va_list arg);
+int get_hex(va_list arg);
+int get_heX(va_list arg);
+int get_binary(va_list arg);
+int get_octal(va_list arg);
+int get_rot13(va_list arg);
+
+#endif
