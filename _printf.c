@@ -1,46 +1,52 @@
 #include "main.h"
 
 /**
- * _printf - prints a formatted string from the main string and other variable
- * arguments passed to it
+ *  _printf - Recreates printf
  *
- * @format: main string
- * Return: returns the total number of characters printed
+ *  @format: format specifier
+ *
+ *  Return: Number of args length
  */
 
 int _printf(const char *format, ...)
 {
-	int chars;
-	spec_t fun_list[] = {
-		{"c", print_char},
-		{"s", print_string},
-		{"%", print_percent},
-		{"d", print_integer},
-		{"i", print_integer},
-		{"u", unsigned_integer},
-		{"b", print_binary},
-		{"r", print_reversed},
-		{"R", rot13},
-		{"o", print_octal},
-		{"x", print_hex},
-		{"X", print_heX},
-		{"S", print_custom},
-		{"p", print_pointer},
-		{NULL, NULL}
-	};
-	va_list arg_list;
 
-		if (format == NULL)
-			return (-1);
+	int (*get_f_spec)(va_list);
+	unsigned int index = 0, spec_count = 0;
 
-		va_start(arg_list, format);
+	va_list arg;
 
-		/**
-		 * parse_args - parses the main string and all other paremetes
-		 * it receives
-		 */
+	va_start(arg, format);
 
-		chars = parse_args(format, fun_list, arg_list);
-		va_end(arg_list);
-		return (chars);
+	if (format == NULL)
+		return (-1);
+
+	for (index = 0; format[index] != '\0'; index++)
+	{
+		if (format[index] == '%')
+		{
+			index++;
+			if (format[index] == '\0')
+				return (-1);
+			while (format[index] == ' ')
+				index++;
+			get_f_spec =  get_specifier(format[index]);
+
+			if (get_f_spec == NULL)
+			{
+				_putchar('%');
+				_putchar(format[index]);
+				spec_count += 2;
+			}
+			else
+				spec_count += get_f_spec(arg);
+		}
+		else
+		{
+			_putchar(format[index]);
+			spec_count++;
+		}
+	}
+	va_end(arg);
+	return (spec_count);
 }
