@@ -1,52 +1,82 @@
 #include "main.h"
+#include <stdlib.h>
 
 /**
- *  _printf - Recreates printf
+ * check_for_specifiers - checks if there is a valid format specifier
+ * @format: possible format specifier
  *
- *  @format: format specifier
- *
- *  Return: Number of args length
+ * Return: pointer to valid function or NULL
  */
+static int (*check_for_specifiers(const char *format))(va_list)
+{
+	unsigned int i;
+	print_t p[] = {
+		{"c", print_c},
+		{"s", print_s},
+		{"i", print_i},
+		{"d", print_d},
+		{"u", print_u},
+		{"b", print_b},
+		{"o", print_o},
+		{"x", print_x},
+		{"X", print_X},
+		{"p", print_p},
+		{"S", print_S},
+		{"r", print_r},
+		{"R", print_R},
+		{NULL, NULL}
+	};
 
+	for (i = 0; p[i].t != NULL; i++)
+	{
+		if (*(p[i].t) == *format)
+		{
+			break;
+		}
+	}
+	return (p[i].f);
+}
+
+/**
+ * _printf - prints anything
+ * @format: list of argument types passed to the function
+ *
+ * Return: number of characters printed
+ */
 int _printf(const char *format, ...)
 {
-
-	int (*get_f_spec)(va_list);
-	unsigned int index = 0, spec_count = 0;
-
-	va_list arg;
-
-	va_start(arg, format);
+	unsigned int i = 0, count = 0;
+	va_list valist;
+	int (*f)(va_list);
 
 	if (format == NULL)
 		return (-1);
-
-	for (index = 0; format[index] != '\0'; index++)
+	va_start(valist, format);
+	while (format[i])
 	{
-		if (format[index] == '%')
+		for (; format[i] != '%' && format[i]; i++)
 		{
-			index++;
-			if (format[index] == '\0')
-				return (-1);
-			while (format[index] == ' ')
-				index++;
-			get_f_spec =  get_specifier(format[index]);
-
-			if (get_f_spec == NULL)
-			{
-				_putchar('%');
-				_putchar(format[index]);
-				spec_count += 2;
-			}
-			else
-				spec_count += get_f_spec(arg);
+			_putchar(format[i]);
+			count++;
 		}
+		if (!format[i])
+			return (count);
+		f = check_for_specifiers(&format[i + 1]);
+		if (f != NULL)
+		{
+			count += f(valist);
+			i += 2;
+			continue;
+		}
+		if (!format[i + 1])
+			return (-1);
+		_putchar(format[i]);
+		count++;
+		if (format[i + 1] == '%')
+			i += 2;
 		else
-		{
-			_putchar(format[index]);
-			spec_count++;
-		}
+			i++;
 	}
-	va_end(arg);
-	return (spec_count);
+	va_end(valist);
+	return (count);
 }
